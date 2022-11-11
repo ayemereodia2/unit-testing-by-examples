@@ -9,28 +9,47 @@ import XCTest
 @testable import AssertYourselfTests
 
 class AssertYourselfTestsTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    func test_fail() {
+        //XCTFail("We have a problem here!")
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func test_assertnil() {
+        let optionalValue : Int? =  123
+        XCTAssertNil(optionalValue)
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func test_assertNil_WithSimpleStruct() {
+        let optionalValue : SimpleStruct? =  SimpleStruct(x: 1, y: 2)
+        XCTAssertNil(optionalValue)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func test_assert_equal() {
+        let actual = "actual"
+        XCTAssertEqual(actual, "expected")
     }
+    
+    func test_assert_equal_withOptional() {
+        let result: String? = "foo"
+        XCTAssertEqual(result, "bar")
+    }
+    
+    func test_floatingPointDanger() {
+        let result = 0.1 + 0.2
+        XCTAssertEqual(result, 0.3, accuracy: 0.0001)
+    }
+    
+    func test_messageOverKill() {
+        let actual = "actual"
+        XCTAssertEqual(actual, "expected", "Expected \"expected\" but got \"\(actual)\"")
+    }
+}
 
+struct SimpleStruct: CustomStringConvertible {
+    let x: Int
+    let y: Int
+    
+    var description: String {
+        "\(x) \(y)"
+    }
 }
