@@ -31,6 +31,7 @@
 		047572B7292784E70036B3D4 /* OverrideViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047572B6292784E70036B3D4 /* OverrideViewControllerTests.swift */; };
 		047572B9292787920036B3D4 /* InstanceInitializerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047572B8292787920036B3D4 /* InstanceInitializerViewControllerTests.swift */; };
 		047572BB292788AC0036B3D4 /* InstancePropertyViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047572BA292788AC0036B3D4 /* InstancePropertyViewControllerTests.swift */; };
+		047572BD2927A03B0036B3D4 /* ClosurePropertyViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047572BC2927A03B0036B3D4 /* ClosurePropertyViewControllerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		047572B6292784E70036B3D4 /* OverrideViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverrideViewControllerTests.swift; sourceTree = "<group>"; };
 		047572B8292787920036B3D4 /* InstanceInitializerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceInitializerViewControllerTests.swift; sourceTree = "<group>"; };
 		047572BA292788AC0036B3D4 /* InstancePropertyViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstancePropertyViewControllerTests.swift; sourceTree = "<group>"; };
+		047572BC2927A03B0036B3D4 /* ClosurePropertyViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosurePropertyViewControllerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 				047572B6292784E70036B3D4 /* OverrideViewControllerTests.swift */,
 				047572B8292787920036B3D4 /* InstanceInitializerViewControllerTests.swift */,
 				047572BA292788AC0036B3D4 /* InstancePropertyViewControllerTests.swift */,
+				047572BC2927A03B0036B3D4 /* ClosurePropertyViewControllerTests.swift */,
 			);
 			path = HardDependenciesTests;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				047572BB292788AC0036B3D4 /* InstancePropertyViewControllerTests.swift in Sources */,
 				047572B7292784E70036B3D4 /* OverrideViewControllerTests.swift in Sources */,
 				047572B9292787920036B3D4 /* InstanceInitializerViewControllerTests.swift in Sources */,
+				047572BD2927A03B0036B3D4 /* ClosurePropertyViewControllerTests.swift in Sources */,
 				047572B5292781D80036B3D4 /* MySingletonViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
