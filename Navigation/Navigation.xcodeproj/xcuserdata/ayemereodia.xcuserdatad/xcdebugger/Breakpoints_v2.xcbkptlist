@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "76D74706-E37F-48F4-88A6-4E8E57B38789"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "55C3D149-5683-46EE-A0C0-5C5B3EAA7282"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Navigation/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "prepare(for:sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F664F13A-3C1C-44F7-B065-663D09AC21CD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "NavigationTests/ViewControllerTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
+            landmarkName = "test_tappingSeguePushButton_shouldShowSegueNextViewController()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F664F13A-3C1C-44F7-B065-663D09AC21CD - 9328a5dbf24b7cc9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NavigationTests.ViewControllerTests.test_tappingSeguePushButton_shouldShowSegueNextViewController() -&gt; ()"
+                  moduleName = "NavigationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ayemereodia/XCodeProjects/UnitTestingInSwift/AssertYourselfTests/Navigation/NavigationTests/ViewControllerTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "110"
+                  endingLineNumber = "110"
+                  offsetFromSymbolStart = "412">
+               </Location>
+               <Location
+                  uuid = "F664F13A-3C1C-44F7-B065-663D09AC21CD - 9328a5dbf24b7cc9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NavigationTests.ViewControllerTests.test_tappingSeguePushButton_shouldShowSegueNextViewController() -&gt; ()"
+                  moduleName = "NavigationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ayemereodia/XCodeProjects/UnitTestingInSwift/AssertYourselfTests/Navigation/NavigationTests/ViewControllerTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "110"
+                  endingLineNumber = "110"
+                  offsetFromSymbolStart = "1044">
+               </Location>
+               <Location
+                  uuid = "F664F13A-3C1C-44F7-B065-663D09AC21CD - 9328a5dbf24b7ce8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NavigationTests.ViewControllerTests.test_tappingSeguePushButton_shouldShowSegueNextViewController() -&gt; ()"
+                  moduleName = "NavigationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ayemereodia/XCodeProjects/UnitTestingInSwift/AssertYourselfTests/Navigation/NavigationTests/ViewControllerTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "109"
+                  endingLineNumber = "109"
+                  offsetFromSymbolStart = "364">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
