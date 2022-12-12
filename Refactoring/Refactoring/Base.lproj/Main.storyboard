@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Refactoring" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ESJ-sC-QwN">
+                                <rect key="frame" x="125.5" y="432.5" width="163" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Change my Password"/>
+                                <connections>
+                                    <segue destination="DqW-iJ-Ke9" kind="presentation" identifier="changePassword" id="zZ3-Cv-OwE"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ESJ-sC-QwN" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="NCj-Hg-OmA"/>
+                            <constraint firstItem="ESJ-sC-QwN" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QB8-F3-XVE"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="114" y="80"/>
+        </scene>
+        <!--Change Password View Controller-->
+        <scene sceneID="xQb-Vy-Kx6">
+            <objects>
+                <viewController storyboardIdentifier="ChangePasswordViewController" id="DqW-iJ-Ke9" customClass="ChangePasswordViewController" customModule="Refactoring" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GNB-G2-p8t">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XrV-HU-Kwv">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                                <items>
+                                    <navigationItem title="Change Password" id="Ubl-WW-Q7W">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="yiS-iw-wkR">
+                                            <connections>
+                                                <action selector="cancel" destination="DqW-iJ-Ke9" id="6Uh-T6-a9L"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Current Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="44w-ij-z5C">
+                                <rect key="frame" x="20" y="109" width="374" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="zy3-ch-HOX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES" secureTextEntry="YES" textContentType="password"/>
+                                <connections>
+                                    <outlet property="delegate" destination="DqW-iJ-Ke9" id="Faj-SU-Hq0"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm New Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hnu-WG-j9b">
+                                <rect key="frame" x="20" y="213" width="374" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="3gy-Gu-NbU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES" secureTextEntry="YES" textContentType="new-password"/>
+                                <connections>
+                                    <outlet property="delegate" destination="DqW-iJ-Ke9" id="vZq-Le-2vA"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hb0-gw-T3w">
+                                <rect key="frame" x="20" y="273" width="374" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="GGf-UY-rsT"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Submit"/>
+                                <connections>
+                                    <action selector="changePassword" destination="DqW-iJ-Ke9" eventType="touchUpInside" id="Lof-EG-RpM"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IAG-DJ-d6d">
+                                <rect key="frame" x="20" y="161" width="374" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="ts6-2y-cIs"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES" secureTextEntry="YES" textContentType="password"/>
+                                <connections>
+                                    <outlet property="delegate" destination="DqW-iJ-Ke9" id="ukP-yZ-AtI"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="lwr-w6-GtE"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="IAG-DJ-d6d" firstAttribute="leading" secondItem="lwr-w6-GtE" secondAttribute="leading" constant="20" id="5sZ-b0-bBM"/>
+                            <constraint firstItem="lwr-w6-GtE" firstAttribute="trailing" secondItem="44w-ij-z5C" secondAttribute="trailing" constant="20" id="BvA-t5-6J8"/>
+                            <constraint firstItem="lwr-w6-GtE" firstAttribute="trailing" secondItem="hb0-gw-T3w" secondAttribute="trailing" constant="20" id="FiM-Cv-YMe"/>
+                            <constraint firstItem="lwr-w6-GtE" firstAttribute="trailing" secondItem="hnu-WG-j9b" secondAttribute="trailing" constant="20" id="H3l-Y5-c5Z"/>
+                            <constraint firstItem="hnu-WG-j9b" firstAttribute="leading" secondItem="lwr-w6-GtE" secondAttribute="leading" constant="20" id="KWL-Cj-gBL"/>
+                            <constraint firstItem="hb0-gw-T3w" firstAttribute="top" secondItem="hnu-WG-j9b" secondAttribute="bottom" constant="16" id="UOz-FE-9mC"/>
+                            <constraint firstItem="hnu-WG-j9b" firstAttribute="top" secondItem="IAG-DJ-d6d" secondAttribute="bottom" constant="8" id="WLR-gR-Tmm"/>
+                            <constraint firstItem="44w-ij-z5C" firstAttribute="top" secondItem="XrV-HU-Kwv" secondAttribute="bottom" constant="53" id="ZJX-L6-gQn"/>
+                            <constraint firstItem="44w-ij-z5C" firstAttribute="leading" secondItem="lwr-w6-GtE" secondAttribute="leading" constant="20" id="ZU9-Mj-Luf"/>
+                            <constraint firstItem="IAG-DJ-d6d" firstAttribute="top" secondItem="44w-ij-z5C" secondAttribute="bottom" constant="8" id="cbb-Tj-eYE"/>
+                            <constraint firstItem="XrV-HU-Kwv" firstAttribute="top" secondItem="lwr-w6-GtE" secondAttribute="top" id="dI9-o0-uXh"/>
+                            <constraint firstItem="lwr-w6-GtE" firstAttribute="trailing" secondItem="IAG-DJ-d6d" secondAttribute="trailing" constant="20" id="o8L-dd-3Op"/>
+                            <constraint firstItem="XrV-HU-Kwv" firstAttribute="leading" secondItem="lwr-w6-GtE" secondAttribute="leading" id="oHt-Ss-1Py"/>
+                            <constraint firstAttribute="trailing" secondItem="XrV-HU-Kwv" secondAttribute="trailing" id="pRh-AL-h9p"/>
+                            <constraint firstItem="hb0-gw-T3w" firstAttribute="leading" secondItem="lwr-w6-GtE" secondAttribute="leading" constant="20" id="yTV-dA-OUn"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="cancelBarButton" destination="yiS-iw-wkR" id="BKa-Sx-O74"/>
+                        <outlet property="confirmPasswordTextField" destination="hnu-WG-j9b" id="e2D-p7-Uui"/>
+                        <outlet property="navigationBar" destination="XrV-HU-Kwv" id="nlD-bR-JIs"/>
+                        <outlet property="newPasswordTextField" destination="IAG-DJ-d6d" id="UT4-2b-NYs"/>
+                        <outlet property="oldPasswordTextField" destination="44w-ij-z5C" id="IEt-gM-2cD"/>
+                        <outlet property="submitButton" destination="hb0-gw-T3w" id="jYx-vx-ZDG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pth-Zp-N8W" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="775" y="77"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
