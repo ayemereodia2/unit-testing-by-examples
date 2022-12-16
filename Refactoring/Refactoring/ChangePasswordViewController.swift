@@ -15,6 +15,28 @@ class ChangePasswordViewController: UIViewController {
     @IBOutlet private(set) var submitButton: UIButton!
     @IBOutlet private(set) var navigationBar: UINavigationBar!
     lazy var passwordChanger:PasswordChanging = PasswordChanger()
+    private lazy var presenter = ChangePasswordPresenter(view: self)
+    var viewModel: ChangePasswordViewModel! {
+        didSet {
+            guard isViewLoaded else { return }
+            
+            if oldValue.isCancelButtonEnabled != viewModel.isCancelButtonEnabled {
+                cancelBarButton.isEnabled = viewModel.isCancelButtonEnabled
+            }
+            
+            if oldValue.inputFocus != viewModel.inputFocus {
+                updateInputFocus()
+            }
+            
+            if oldValue.isBlurViewShowing != viewModel.isBlurViewShowing {
+                updateBlurView()
+            }
+            
+            if oldValue.isActivityIndicatorShowing != viewModel.isActivityIndicatorShowing {
+                updateActivityIndicator()
+            }
+        }
+    }
     
     var securityToken = ""
      let blurView = UIVisualEffectView(effect:UIBlurEffect(style: .dark))
@@ -30,19 +52,17 @@ class ChangePasswordViewController: UIViewController {
     
     
     @IBAction private func cancel() {
-        oldPasswordTextField.resignFirstResponder()
-        newPasswordTextField.resignFirstResponder()
-        confirmPasswordTextField.resignFirstResponder()
+        viewModel.inputFocus = .noKeyBoard
         dismiss(animated: true)
     }
     
-    @IBAction private func changePassword() {        
+    @IBAction private func changePassword() {
+        updateViewModelToTextFields()
         guard validateInputs() else {
             return
         }
         
         setUpWaitingAppearance()
-        activityIndicator.startAnimating()
         attemptToChangePassword()
     }
     
@@ -50,33 +70,31 @@ class ChangePasswordViewController: UIViewController {
     
     private func validateInputs() -> Bool {
         
-        if oldPasswordTextField.text?.isEmpty ?? true {
-            oldPasswordTextField.becomeFirstResponder()
+        if viewModel.isOldPasswordEmpty {
+            viewModel.inputFocus = .oldPassword
             return false
         }
         
-        if newPasswordTextField.text?.isEmpty ?? true {
-            showAlert(message: "Please enter a new password.", okAction: { [weak self] _ in
-                self?.newPasswordTextField.becomeFirstResponder()
+        if viewModel.isNewPasswordEmpty {
+            showAlert(message: viewModel.enterNewPasswordMessage, okAction: { [weak self] _ in
+                self?.viewModel.inputFocus = .newPassword
             })
             
             return false
         }
         
-        if newPasswordTextField.text?.count ?? 0 < 6 {            
-            showAlert(message: "The new password should have at least 6 characters.", okAction: { [weak self] _ in
-                self?.newPasswordTextField.text = ""
-                self?.confirmPasswordTextField.text = ""
-                self?.newPasswordTextField.becomeFirstResponder()
+        if viewModel.isNewPasswordTooShort {            
+            showAlert(message: viewModel.newPasswordTooShortMessage, okAction: { [weak self] _ in
+                self?.resetNewPasswords()
+                self?.viewModel.inputFocus = .newPassword
             })
             return false
         }
         
         if newPasswordTextField.text != confirmPasswordTextField.text {
-            showAlert(message: "The new password and the confirmation password " + "don’t match. Please try again.", okAction: { [weak self] _ in
-                self?.newPasswordTextField.text = ""
-                self?.confirmPasswordTextField.text = ""
-                self?.newPasswordTextField.becomeFirstResponder()
+            showAlert(message: viewModel.confirmationPasswordDoesNotMatchMessage, okAction: { [weak self] _ in
+                self?.resetNewPasswords()
+                self?.viewModel.inputFocus = .newPassword
             })
             return false
         }
@@ -88,87 +106,59 @@ class ChangePasswordViewController: UIViewController {
         let alertController = UIAlertController(
             title: nil,
             message: message, preferredStyle: .alert)
-        let okButton = UIAlertAction(title: "OK", style: .default, handler: okAction)
+        let okButton = UIAlertAction(title: viewModel.okButtonLabel, style: .default, handler: okAction)
         alertController.addAction(okButton)
         alertController.preferredAction = okButton
         self.present(alertController, animated: true)
     }
     
     private func setUpWaitingAppearance() {
-        oldPasswordTextField.resignFirstResponder()
-        newPasswordTextField.resignFirstResponder()
-        confirmPasswordTextField.resignFirstResponder()
-        cancelBarButton.isEnabled = false
-        view.backgroundColor = .clear
-        view.addSubview(blurView)
-        view.addSubview(activityIndicator)
-        NSLayoutConstraint.activate([
-            blurView.heightAnchor.constraint(equalTo: view.heightAnchor),
-            blurView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-        ])
+        viewModel.inputFocus = .noKeyBoard
+        viewModel.isCancelButtonEnabled = false
+        viewModel.isBlurViewShowing = true
+        viewModel.isActivityIndicatorShowing = true
     }
     
     private func attemptToChangePassword() {
         passwordChanger.change(
             securityToken: securityToken,
-            oldPassword: oldPasswordTextField.text ?? "",
-            newPassword: newPasswordTextField.text ?? "",
+            oldPassword: viewModel.oldPassword,
+            newPassword: viewModel.newPassword,
             onSuccess: { [weak self] in
-                self?.activityIndicator.stopAnimating()
-                self?.activityIndicator.removeFromSuperview()
-                
-                let alertController = UIAlertController(
-                    title: "",
-                    message: "Your password has been successfully changed.",
-                    preferredStyle: .alert)
-                
-                let okButton = UIAlertAction(
-                    title: "OK", style:.default) { [weak self] _ in
-                        self?.dismiss(animated: true)
-                    }
-                
-                alertController.addAction(okButton)
-                alertController.preferredAction = okButton
-                
-                self?.present(alertController, animated: true)
-                
+                self?.handleSuccess()
             }, onFailure: { [weak self] message in
-                
-                self?.activityIndicator.stopAnimating()
-                self?.activityIndicator.removeFromSuperview()
-                
-                let alertController = UIAlertController(
-                    title: "",
-                    message: message,
-                    preferredStyle: .alert)
-                
-                let okButton = UIAlertAction( title: "OK",
-                                              style: .default) { [weak self] _ in
-                    
-                    self?.oldPasswordTextField.text = ""
-                    self?.newPasswordTextField.text = ""
-                    self?.confirmPasswordTextField.text = ""
-                    self?.oldPasswordTextField.becomeFirstResponder()
-                    self?.view.backgroundColor = .white
-                    self?.blurView.removeFromSuperview()
-                    self?.cancelBarButton.isEnabled = true
-                }
-                alertController.addAction(okButton)
-                alertController.preferredAction = okButton
-                self?.present(alertController, animated: true)
+                self?.handleFailure(message: message)
             })
+    }
+    
+    private func handleSuccess() {
+        viewModel.isActivityIndicatorShowing = false
+        showAlert(message: viewModel.successMessage){ [weak self] _ in
+            self?.dismiss(animated: true)
+        }
+    }
+    
+    private func handleFailure(message: String) {
+        viewModel.isActivityIndicatorShowing = false
+        showAlert(message: message){ [weak self] _ in
+            
+            self?.oldPasswordTextField.text = ""
+            self?.newPasswordTextField.text = ""
+            self?.confirmPasswordTextField.text = ""
+            self?.viewModel.inputFocus = .oldPassword
+            self?.viewModel.isBlurViewShowing = false
+            self?.viewModel.isCancelButtonEnabled = true
+        }
     }
 }
 
 extension ChangePasswordViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField === oldPasswordTextField {
-            newPasswordTextField.becomeFirstResponder()
+            viewModel.inputFocus = .newPassword
         }
         else if textField === newPasswordTextField {
-            confirmPasswordTextField.becomeFirstResponder()
+            viewModel.inputFocus = .confirmPassword
         } else if textField === confirmPasswordTextField {
             changePassword()
         }
@@ -176,3 +166,67 @@ extension ChangePasswordViewController: UITextFieldDelegate {
     }
 }
 
+extension ChangePasswordViewController {
+    private func setLabels() {
+        navigationBar.topItem?.title = viewModel.title
+        oldPasswordTextField.placeholder = viewModel.oldPasswordPlaceholder
+        newPasswordTextField.placeholder = viewModel.newPasswordPlaceholder
+        confirmPasswordTextField.placeholder = viewModel.confirmPasswordPlaceholder
+        submitButton.setTitle(viewModel.submitButtonLabel, for: .normal)
+    }
+}
+
+extension ChangePasswordViewController {
+    private func updateInputFocus() {
+        switch viewModel.inputFocus {
+            
+        case .noKeyBoard:
+            view.endEditing(true)
+        case .oldPassword:
+            oldPasswordTextField.becomeFirstResponder()
+        case .newPassword:
+            newPasswordTextField.becomeFirstResponder()
+        case .confirmPassword:
+            confirmPasswordTextField.becomeFirstResponder()
+        }
+    }
+    
+    private func updateBlurView() {
+        if viewModel.isBlurViewShowing {
+            view.backgroundColor = .clear
+            view.addSubview(blurView)
+            NSLayoutConstraint.activate([
+                blurView.heightAnchor.constraint(equalTo: view.heightAnchor),
+                blurView.widthAnchor.constraint(equalTo: view.widthAnchor)
+            ])
+        } else {
+            blurView.removeFromSuperview()
+            view.backgroundColor = .white
+        }
+    }
+
+    private func updateActivityIndicator() {
+        if viewModel.isActivityIndicatorShowing {
+            view.addSubview(activityIndicator)
+            NSLayoutConstraint.activate([
+                activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            ])
+            activityIndicator.startAnimating()
+        } else {
+            self.activityIndicator.stopAnimating()
+            self.activityIndicator.removeFromSuperview()
+        }
+    }
+    
+    private func updateViewModelToTextFields() {
+        viewModel.oldPassword = oldPasswordTextField.text ?? ""
+        viewModel.newPassword = newPasswordTextField.text ?? ""
+        viewModel.confirmPassword = confirmPasswordTextField.text ?? ""
+    }
+
+    private func resetNewPasswords() {
+        newPasswordTextField.text = ""
+        confirmPasswordTextField.text = ""
+    }
+}

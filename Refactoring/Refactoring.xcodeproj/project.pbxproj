@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0433E19C294B0D000056EEA5 /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0433E19B294B0D000056EEA5 /* ChangePasswordViewModel.swift */; };
+		043E9542294C75AF00882777 /* ChangePasswordViewCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043E9541294C75AF00882777 /* ChangePasswordViewCommands.swift */; };
+		043E9544294C75E700882777 /* ChangePasswordPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043E9543294C75E700882777 /* ChangePasswordPresenter.swift */; };
 		04C471B62941230700C940F6 /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C471B52941230700C940F6 /* TestHelpers.swift */; };
 		04C471B82941244300C940F6 /* MockPasswordChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C471B72941244300C940F6 /* MockPasswordChanger.swift */; };
 		04C471BA2941270600C940F6 /* ChangePasswordViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C471B92941270600C940F6 /* ChangePasswordViewControllerTests.swift */; };
@@ -55,6 +58,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0433E19B294B0D000056EEA5 /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
+		043E9541294C75AF00882777 /* ChangePasswordViewCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewCommands.swift; sourceTree = "<group>"; };
+		043E9543294C75E700882777 /* ChangePasswordPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordPresenter.swift; sourceTree = "<group>"; };
 		04C471B52941230700C940F6 /* TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelpers.swift; sourceTree = "<group>"; };
 		04C471B72941244300C940F6 /* MockPasswordChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPasswordChanger.swift; sourceTree = "<group>"; };
 		04C471B92941270600C940F6 /* ChangePasswordViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewControllerTests.swift; sourceTree = "<group>"; };
@@ -101,9 +107,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0433E19A294B0CA70056EEA5 /* MVVM */ = {
+			isa = PBXGroup;
+			children = (
+				0433E19B294B0D000056EEA5 /* ChangePasswordViewModel.swift */,
+			);
+			path = MVVM;
+			sourceTree = "<group>";
+		};
+		043E9540294C757A00882777 /* MVP */ = {
+			isa = PBXGroup;
+			children = (
+				043E9541294C75AF00882777 /* ChangePasswordViewCommands.swift */,
+				043E9543294C75E700882777 /* ChangePasswordPresenter.swift */,
+			);
+			path = MVP;
+			sourceTree = "<group>";
+		};
 		04CE33E5293FF60200DA979F = {
 			isa = PBXGroup;
 			children = (
+				043E9540294C757A00882777 /* MVP */,
+				0433E19A294B0CA70056EEA5 /* MVVM */,
 				04CE33F0293FF60200DA979F /* Refactoring */,
 				04CE3407293FF60600DA979F /* RefactoringTests */,
 				04CE3411293FF60600DA979F /* RefactoringUITests */,
@@ -290,7 +315,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				04CE33F6293FF60200DA979F /* ViewController.swift in Sources */,
+				043E9544294C75E700882777 /* ChangePasswordPresenter.swift in Sources */,
+				0433E19C294B0D000056EEA5 /* ChangePasswordViewModel.swift in Sources */,
 				04CE33F2293FF60200DA979F /* AppDelegate.swift in Sources */,
+				043E9542294C75AF00882777 /* ChangePasswordViewCommands.swift in Sources */,
 				04CE33F4293FF60200DA979F /* SceneDelegate.swift in Sources */,
 				04CE3424293FFCA600DA979F /* ChangePasswordViewController.swift in Sources */,
 				04CE3422293FF96000DA979F /* PasswordChanger.swift in Sources */,
