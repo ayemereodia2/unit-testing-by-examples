@@ -15,14 +15,19 @@ class ChangePasswordViewController: UIViewController {
     @IBOutlet private(set) var submitButton: UIButton!
     @IBOutlet private(set) var navigationBar: UINavigationBar!
     lazy var passwordChanger:PasswordChanging = PasswordChanger()
-    private lazy var presenter = ChangePasswordPresenter(view: self)
+    private lazy var presenter = ChangePasswordPresenter(view: self, viewModel: viewModel)
+    
+    func setCancelButtonEnabled(_ oldValue: ChangePasswordViewModel?) {
+        if oldValue?.isCancelButtonEnabled != viewModel.isCancelButtonEnabled {
+            cancelBarButton.isEnabled = viewModel.isCancelButtonEnabled
+        }
+    }
+    
     var viewModel: ChangePasswordViewModel! {
         didSet {
             guard isViewLoaded else { return }
             
-            if oldValue.isCancelButtonEnabled != viewModel.isCancelButtonEnabled {
-                cancelBarButton.isEnabled = viewModel.isCancelButtonEnabled
-            }
+            setCancelButtonEnabled(oldValue)
             
             if oldValue.inputFocus != viewModel.inputFocus {
                 updateInputFocus()
@@ -30,10 +35,6 @@ class ChangePasswordViewController: UIViewController {
             
             if oldValue.isBlurViewShowing != viewModel.isBlurViewShowing {
                 updateBlurView()
-            }
-            
-            if oldValue.isActivityIndicatorShowing != viewModel.isActivityIndicatorShowing {
-                updateActivityIndicator()
             }
         }
     }
@@ -53,7 +54,7 @@ class ChangePasswordViewController: UIViewController {
     
     @IBAction private func cancel() {
         viewModel.inputFocus = .noKeyBoard
-        dismiss(animated: true)
+        dismissModal()
     }
     
     @IBAction private func changePassword() {
@@ -102,6 +103,8 @@ class ChangePasswordViewController: UIViewController {
         return true
     }
     
+    
+    
     private func showAlert(message: String, okAction: @escaping (UIAlertAction) -> Void) {
         let alertController = UIAlertController(
             title: nil,
@@ -116,7 +119,7 @@ class ChangePasswordViewController: UIViewController {
         viewModel.inputFocus = .noKeyBoard
         viewModel.isCancelButtonEnabled = false
         viewModel.isBlurViewShowing = true
-        viewModel.isActivityIndicatorShowing = true
+        showActivityIndicator()
     }
     
     private func attemptToChangePassword() {
@@ -125,23 +128,15 @@ class ChangePasswordViewController: UIViewController {
             oldPassword: viewModel.oldPassword,
             newPassword: viewModel.newPassword,
             onSuccess: { [weak self] in
-                self?.handleSuccess()
+                self?.presenter.handleSuccess()
             }, onFailure: { [weak self] message in
                 self?.handleFailure(message: message)
             })
     }
     
-    private func handleSuccess() {
-        viewModel.isActivityIndicatorShowing = false
-        showAlert(message: viewModel.successMessage){ [weak self] _ in
-            self?.dismiss(animated: true)
-        }
-    }
-    
     private func handleFailure(message: String) {
-        viewModel.isActivityIndicatorShowing = false
-        showAlert(message: message){ [weak self] _ in
-            
+        hideActivityIndicator()
+        showAlert(message: message) { [weak self] in
             self?.oldPasswordTextField.text = ""
             self?.newPasswordTextField.text = ""
             self?.confirmPasswordTextField.text = ""
@@ -204,20 +199,6 @@ extension ChangePasswordViewController {
             view.backgroundColor = .white
         }
     }
-
-    private func updateActivityIndicator() {
-        if viewModel.isActivityIndicatorShowing {
-            view.addSubview(activityIndicator)
-            NSLayoutConstraint.activate([
-                activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            ])
-            activityIndicator.startAnimating()
-        } else {
-            self.activityIndicator.stopAnimating()
-            self.activityIndicator.removeFromSuperview()
-        }
-    }
     
     private func updateViewModelToTextFields() {
         viewModel.oldPassword = oldPasswordTextField.text ?? ""
@@ -228,5 +209,38 @@ extension ChangePasswordViewController {
     private func resetNewPasswords() {
         newPasswordTextField.text = ""
         confirmPasswordTextField.text = ""
+    }
+}
+extension ChangePasswordViewController: ChangePasswordViewCommands {
+    
+    func hideActivityIndicator() {
+        self.activityIndicator.stopAnimating()
+        self.activityIndicator.removeFromSuperview()
+    }
+    
+    func showActivityIndicator() {
+        view.addSubview(activityIndicator)
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
+        activityIndicator.startAnimating()
+    }
+    
+    func dismissModal() {
+        dismiss(animated: true)
+    }
+    
+    func showAlert(message: String, action: @escaping () -> Void) {
+        let wrappedAction: (UIAlertAction) -> Void = { _ in action() }
+        showAlert(message: message, okAction: wrappedAction)
+    }
+    
+    func hideBlurView() {
+        
+    }
+    
+    func showBlurView() {
+        
     }
 }

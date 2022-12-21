@@ -30,7 +30,6 @@ struct ChangePasswordViewModel {
     }
     
     var isBlurViewShowing = false
-    var isActivityIndicatorShowing = false
     
     var oldPassword = ""
     var newPassword = ""
