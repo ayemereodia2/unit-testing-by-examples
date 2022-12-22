@@ -17,27 +17,15 @@ class ChangePasswordViewController: UIViewController {
     lazy var passwordChanger:PasswordChanging = PasswordChanger()
     private lazy var presenter = ChangePasswordPresenter(view: self, viewModel: viewModel)
     
-    func setCancelButtonEnabled(_ oldValue: ChangePasswordViewModel?) {
-        if oldValue?.isCancelButtonEnabled != viewModel.isCancelButtonEnabled {
-            cancelBarButton.isEnabled = viewModel.isCancelButtonEnabled
-        }
+    func setCancelButtonEnabled(_ enabled: Bool) {
+        cancelBarButton.isEnabled = enabled
     }
     
-    var viewModel: ChangePasswordViewModel! {
-        didSet {
-            guard isViewLoaded else { return }
-            
-            setCancelButtonEnabled(oldValue)
-            
-            if oldValue.inputFocus != viewModel.inputFocus {
-                updateInputFocus()
-            }
-            
-            if oldValue.isBlurViewShowing != viewModel.isBlurViewShowing {
-                updateBlurView()
-            }
-        }
+    func setCancelButtonEnabled(_ oldValue: ChangePasswordViewModel?) {
+        setCancelButtonEnabled(oldValue)
     }
+    
+    var viewModel: ChangePasswordViewModel!
     
     var securityToken = ""
      let blurView = UIVisualEffectView(effect:UIBlurEffect(style: .dark))
@@ -53,7 +41,7 @@ class ChangePasswordViewController: UIViewController {
     
     
     @IBAction private func cancel() {
-        viewModel.inputFocus = .noKeyBoard
+        updateInputFocus(.noKeyBoard)
         dismissModal()
     }
     
@@ -72,13 +60,13 @@ class ChangePasswordViewController: UIViewController {
     private func validateInputs() -> Bool {
         
         if viewModel.isOldPasswordEmpty {
-            viewModel.inputFocus = .oldPassword
+            updateInputFocus(.oldPassword)
             return false
         }
         
         if viewModel.isNewPasswordEmpty {
             showAlert(message: viewModel.enterNewPasswordMessage, okAction: { [weak self] _ in
-                self?.viewModel.inputFocus = .newPassword
+                self?.updateInputFocus(.newPassword)
             })
             
             return false
@@ -87,7 +75,7 @@ class ChangePasswordViewController: UIViewController {
         if viewModel.isNewPasswordTooShort {            
             showAlert(message: viewModel.newPasswordTooShortMessage, okAction: { [weak self] _ in
                 self?.resetNewPasswords()
-                self?.viewModel.inputFocus = .newPassword
+                self?.updateInputFocus(.newPassword)
             })
             return false
         }
@@ -95,7 +83,7 @@ class ChangePasswordViewController: UIViewController {
         if newPasswordTextField.text != confirmPasswordTextField.text {
             showAlert(message: viewModel.confirmationPasswordDoesNotMatchMessage, okAction: { [weak self] _ in
                 self?.resetNewPasswords()
-                self?.viewModel.inputFocus = .newPassword
+                self?.updateInputFocus(.newPassword)
             })
             return false
         }
@@ -116,9 +104,9 @@ class ChangePasswordViewController: UIViewController {
     }
     
     private func setUpWaitingAppearance() {
-        viewModel.inputFocus = .noKeyBoard
-        viewModel.isCancelButtonEnabled = false
-        viewModel.isBlurViewShowing = true
+        updateInputFocus(.noKeyBoard)
+        setCancelButtonEnabled(false)
+        showBlurView()
         showActivityIndicator()
     }
     
@@ -140,9 +128,9 @@ class ChangePasswordViewController: UIViewController {
             self?.oldPasswordTextField.text = ""
             self?.newPasswordTextField.text = ""
             self?.confirmPasswordTextField.text = ""
-            self?.viewModel.inputFocus = .oldPassword
-            self?.viewModel.isBlurViewShowing = false
-            self?.viewModel.isCancelButtonEnabled = true
+            self?.updateInputFocus(.oldPassword)
+            self?.hideBlurView()
+            self?.setCancelButtonEnabled(true)
         }
     }
 }
@@ -150,10 +138,10 @@ class ChangePasswordViewController: UIViewController {
 extension ChangePasswordViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField === oldPasswordTextField {
-            viewModel.inputFocus = .newPassword
+            updateInputFocus(.newPassword)
         }
         else if textField === newPasswordTextField {
-            viewModel.inputFocus = .confirmPassword
+            updateInputFocus(.confirmPassword)
         } else if textField === confirmPasswordTextField {
             changePassword()
         }
@@ -172,9 +160,8 @@ extension ChangePasswordViewController {
 }
 
 extension ChangePasswordViewController {
-    private func updateInputFocus() {
-        switch viewModel.inputFocus {
-            
+    func updateInputFocus(_ inputFocus: ChangePasswordViewModel.InputFocus) {
+        switch inputFocus {
         case .noKeyBoard:
             view.endEditing(true)
         case .oldPassword:
@@ -183,20 +170,6 @@ extension ChangePasswordViewController {
             newPasswordTextField.becomeFirstResponder()
         case .confirmPassword:
             confirmPasswordTextField.becomeFirstResponder()
-        }
-    }
-    
-    private func updateBlurView() {
-        if viewModel.isBlurViewShowing {
-            view.backgroundColor = .clear
-            view.addSubview(blurView)
-            NSLayoutConstraint.activate([
-                blurView.heightAnchor.constraint(equalTo: view.heightAnchor),
-                blurView.widthAnchor.constraint(equalTo: view.widthAnchor)
-            ])
-        } else {
-            blurView.removeFromSuperview()
-            view.backgroundColor = .white
         }
     }
     
@@ -237,10 +210,16 @@ extension ChangePasswordViewController: ChangePasswordViewCommands {
     }
     
     func hideBlurView() {
-        
+        blurView.removeFromSuperview()
+        view.backgroundColor = .white
     }
     
     func showBlurView() {
-        
+        view.backgroundColor = .clear
+        view.addSubview(blurView)
+        NSLayoutConstraint.activate([
+            blurView.heightAnchor.constraint(equalTo: view.heightAnchor),
+            blurView.widthAnchor.constraint(equalTo: view.widthAnchor)
+        ])
     }
 }

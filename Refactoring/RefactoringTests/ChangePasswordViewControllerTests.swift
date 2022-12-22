@@ -423,6 +423,7 @@ extension ChangePasswordViewControllerTests {
     
     private func putFocusOn(_ inputFocus: ChangePasswordViewModel.InputFocus) {
         putInViewHierarchy(sut)
-        sut.viewModel.inputFocus = inputFocus
+        //sut.viewModel.inputFocus = inputFocus
+        sut.updateInputFocus(inputFocus)
     }
 }

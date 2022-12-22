@@ -17,20 +17,14 @@ struct ChangePasswordViewModel {
     let oldPasswordPlaceholder: String = "Current Password"
     let newPasswordPlaceholder: String = "New Password"
     let confirmPasswordPlaceholder: String = "Confirm New Password"
-    let submitButtonLabel: String = "Submit"
-    var isCancelButtonEnabled = true
-    
-    var inputFocus: InputFocus = .noKeyBoard
-    
+    let submitButtonLabel: String = "Submit"        
     enum InputFocus {
         case noKeyBoard
         case oldPassword
         case newPassword
         case confirmPassword
     }
-    
-    var isBlurViewShowing = false
-    
+        
     var oldPassword = ""
     var newPassword = ""
     var confirmPassword = ""
