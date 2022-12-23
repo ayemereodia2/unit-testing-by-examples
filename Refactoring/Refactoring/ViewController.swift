@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         if segue.identifier == "changePassword" {
         let changePasswordVC = segue.destination as? ChangePasswordViewController
             changePasswordVC?.securityToken = "TOKEN"
-            changePasswordVC?.viewModel = ChangePasswordViewModel(
+            changePasswordVC?.viewModel = ChangePasswordLabels(
                 okButtonLabel: "OK",
                 enterNewPasswordMessage: "Please enter a new password.",
                 newPasswordTooShortMessage: "The new password should have at least 6 characters.",

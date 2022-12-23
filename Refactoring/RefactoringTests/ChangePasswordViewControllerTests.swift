@@ -20,7 +20,7 @@ class ChangePasswordViewControllerTests: XCTestCase {
         super.setUp()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         sut = storyboard.instantiateViewController(identifier: String(describing: ChangePasswordViewController.self))
-        sut.viewModel = ChangePasswordViewModel(
+        sut.viewModel = ChangePasswordLabels(
             okButtonLabel: "OK",
             enterNewPasswordMessage: "Please enter a new password.",
             newPasswordTooShortMessage: "The new password should have at least 6 characters.",
@@ -421,9 +421,8 @@ extension ChangePasswordViewControllerTests {
         passwordChanger.changeCallFailure(message: "DUMMY")
     }
     
-    private func putFocusOn(_ inputFocus: ChangePasswordViewModel.InputFocus) {
+    private func putFocusOn(_ inputFocus: InputFocus) {
         putInViewHierarchy(sut)
-        //sut.viewModel.inputFocus = inputFocus
         sut.updateInputFocus(inputFocus)
     }
 }
